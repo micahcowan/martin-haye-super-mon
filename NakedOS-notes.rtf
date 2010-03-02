@@ -1,0 +1,90 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9180\viewh16940\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 \
+NakedOS commands:\
+=================\
+\
+They go like this:\
+  JSR NKENTRY\
+  ADC $DC41	; always DCxx (for Disk Command); xx is command # below\
+  LDA #5		; immediate operand\
+  LDA $46		; fetch operand from zero page\
+  LDA $4065		; fetch operand from abs address\
+  BIT $4000		; if lo byte zero, take hi byte verbatim ($40 in this case)\
+  BIT $DF02		; if lo byte non-zero, take it ($02 in this case)\
+  ...			; more commands if you like\
+  CLD			; end of command list\
+\
+Commands so far:\
+\
+Raw disk read:\
+  ADC $DC41\
+  LDA track\
+  LDA sector\
+  LDA addrPage\
+  LDA nPages\
+\
+Raw disk write:\
+  ADC $DC42\
+  LDA track\
+  LDA sector\
+  LDA addrPage\
+  LDA nPages\
+\
+Read entire file:\
+  ADC $DC01\
+  LDA fileNum\
+  LDA addrPage\
+\
+Write entire file:\
+  ADC $DC02\
+  LDA fileNum\
+  LDA addrPage\
+  LDA nPages\
+  LDA compression [0=none, 1=data, 2=machine code]\
+\
+Delete file:\
+  ADC $DC03\
+  LDA fileNum\
+\
+Get file length in sectors: (zero if file doesn't exist)\
+  ADC $DC08\
+  LDA fileNum\
+\
+Init catalog:\
+  ADC $DC0F\
+\
+Done with commands:\
+  CLD\
+\
+Done with commands, but leave spinning for more:\
+  SED\
+\
+NakedOS string table:\
+=================\
+\
+17B5 -> 159D - 0D - "NOTFND"\
+17BF -> 15A4 - 14 - "FULL"\
+17EA -> 15A9 - 19 - "PARAM"\
+17EF -> 15AF - 1F - "CMD"\
+17F3 -> 15B3 - 23 - "I/O"\
+17F7 -> 15B7 - 27 - "NAKEDOS "\
+\
+Memory layout decisions:\
+- I fixed the stub so it preserves $300.33F. That way NakedOS only uses a few zero page locations and its area from $800.17FF, allowing little user routines to live anywhere else.\
+- Factoring out comp/decom. It'll be in a separate little program, in a later version of NakedOS. That's because (a) it will delay initial release, and (b) not every program will want to use it.\
+- Initial entry code is in sector 1 and lives at $D00.DFF. It is destroyed by any R/W operation.\
+- Main code will be in sectors 2-9.7 and live at $E00.15CF. Always resident.\
+- Catalog will be in sectors 9.7-11 and live at $15D0.17FF. Always resident.\
+- In the directory, 0 is reserved. FF means free. FE is reserved for NakedOS on track zero. All other values are file numbers.\
+\
+Alloc modes:\
+0 = regular scan (no alloc)\
+40 = contig scan\
+80 = regular alloc\
+\
+}
