@@ -283,7 +283,7 @@ Helpful info for move/relocation routines:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\fs20 \cf0 Script used to relocate Super-mon to low mem ($4000.5FFF):\
+\f1\fs20 \cf0 Script used to relocate Super-mon to low mem ($4000.5FFF), so that one can work on the upper Super-mon.\
 \
 4000.5FFFP\
 4000<E000.FFFFS\
@@ -297,6 +297,14 @@ MONLUP+1:A5\
 SETVID+15:5D\
 GETNUM+18:5E\
 MKINSG\
+C600G\
+4000G\
+E000.F3FFP\
 \
-(then reboot to restore sym table for upper Super-mon)\
+(the reboot is to restore the symbol table for upper Super-mon)\
+\
+DF01: Init; $1800 loads Super-mon and sym tbl; $1900 saves them.\
+DF02: Super-mon [E000.F7FF]\
+DF03: Sym tbl 1 [D000.DFFF, C083]\
+DF03: Sym tbl 2 [D000.DFFF, C08B]\
 }
