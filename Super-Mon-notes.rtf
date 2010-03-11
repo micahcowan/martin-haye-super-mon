@@ -264,22 +264,24 @@ Helpful info for move/relocation routines:\
 	60: DSTEND\
 \
 \
-	F100	INSLTBL: Table of instruction lengths (0, 1, or 82)\
-	F200	Hash table\
 	F400	Print string,X\
 	--0C	"FULL "\
 	--12	"[cr]SMARTMV "\
 	--1C	" SYMS, "\
 	--24	" INSTRS"\
 	--2C	"P-RANGE "\
-	--36	welcome msg\
-	--54	<next>\
+	--36	"TIGHT: INS MORE"\
+	--46   "[cr] FREE SECS: "\
+	--53	<next>\
 	F4CC	LSADRS\
 	F4F4	INSFIXCT\
 	F4F6	LABFIXCT\
 	F4F8	<unused>\
 	F4F9	SYMBUF (6 bytes)\
 	F4FF	Hash marker (0=need rehash, FF=hash ok)\
+	F500	INSLTBL: Table of instruction lengths (0, 1, or 82)\
+	F600	Hash table lo\
+	F700	Hash table hi\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
