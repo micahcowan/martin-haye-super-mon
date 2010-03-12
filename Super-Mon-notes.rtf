@@ -68,6 +68,10 @@
 \f1 800.805I
 \f0 		Insert 5 program bytes at 800 (leaves PC=800)\
 	
+\f1 800O
+\f0 			Like Insert, but labs and targets to the very start of\
+				the range are not relocated, thus "opening" space.\
+	
 \f1 800K
 \f0 			Klose (delete) set of zero-bytes starting at 800\
 	
@@ -190,66 +194,6 @@ CKSYMORPC	Check SRCBEG if label or PCL. If so print and SEC; else clc.\
 		EF2C	<next>\
 \
 ********\
-TO DO\
-********\
-\
-D Fix SmartMV to work for all mem ranges, not just in prog area.\
-\
-- If you forget ending quote char, (e.g. "A) then it executes junk after.\
-\
-- Sometimes doing Klose near end of page doesn't re-list\
-\
-- Fix re-list so that PC is at end of page. Feels weird when next List relists part of the on-screen page.\
-\
-- Don't do +/-1, +/2- for labels on branch printing.\
-\
-- On boot-up don't load sym table; instead init with one that only has LOADPROG entry point.\
-\
-- Consider doing away with -1 and -2 processing entirely.\
-\
-- Print dupe labels in T scan\
-\
-- Sometimes very first symbol relocation doesn't work.\
-\
-- Print err on reverse range for Klose\
-\
-- Seems like moving a block from before to after another block messes up the non-moving block.\
-\
-- Print one extra line in List, so that previous letter code isn't visible.\
-\
-- Why doesn't FOO<BAR.BAZ work? That is, three labels. Also, FOO<-G.-Z doesn't work.\
-\
-- Hex <-> Dec conversion, somehow. Maybe: "$300" gives 768, while "$$768" gives 0300.\
-\
-- Fix add/sub to do full 16 bits\
-\
-D Fix bug: when rel branch can't be relocated, prints same thing over and over in infinite loop.\
-D Fix bug: -Z is being reset to one line *after* end of listing... I think some old code that I thought was a good idea at the time is doing this.\
-D Fix spacing in Listings: remove one between opcode and operand, to account for new 9-char labels interacting with (,Y) addressing mode.\
-D Implement "!" operator to clear symbols for a mem range\
-D Remove keyboard pause during sym dump (inconsistent with mon ethic & printing)\
-D Change "-" addrs so that -Z doesn't change while entering code\
-D Handle multiple labels at same address\
-D Repeat last List after Insert or Klose\
-D Detect Label+2, Label-1\
-D Detect PC+1,2,3, PC-1,2,3\
-D Suppress printing of relocs on Insert or Klose\
-D Add direct string entry. 200:"ABC" 8D 00 <==> 200:C1 C2 C3 8D 00\
-D Insert, Klose, and SmartMv should check for prog area, err if not in it.\
-D Print ASCII next to memory dumps\
-D Implement "?" operator to find refs to addr or range of addrs.\
-D Allow "-" after label as well as "+"\
-D Implement "-" notation for addrs in last listing\
-D Allow 9 char labels with unused byte in sym tbl. \
-X Allow underscores: could encode underscore using mid-str zero, but no way to type it on ][+, so forget it.\
-D Get rid of requirement for space between label and cmd\
-D Add intro message\
-D Default to 32 bytes instead of 16 on Insert\
-D Change use of $240.244 to something in F4xx range.e0\
-D Change M back to plain move (but handling overlapping addrs)\
-D Add S for Smart-move\
-\
-********\
 \
 Helpful info for move/relocation routines:\
 	3C: SRCBEG: source begin\
@@ -264,6 +208,7 @@ Helpful info for move/relocation routines:\
 	60: DSTEND\
 \
 \
+String table\
 	F400	Print string,X\
 	--0C	"FULL "\
 	--12	"[cr]SMARTMV "\
@@ -273,19 +218,10 @@ Helpful info for move/relocation routines:\
 	--36	"TIGHT: INS MORE"\
 	--46   "[cr] FREE SECS: "\
 	--53	<next>\
-	F4CC	LSADRS\
-	F4F4	INSFIXCT\
-	F4F6	LABFIXCT\
-	F4F8	<unused>\
-	F4F9	SYMBUF (6 bytes)\
-	F4FF	Hash marker (0=need rehash, FF=hash ok)\
-	F500	INSLTBL: Table of instruction lengths (0, 1, or 82)\
-	F600	Hash table lo\
-	F700	Hash table hi\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\fs20 \cf0 Script used to relocate Super-mon to low mem ($4000.5FFF), so that one can work on the upper Super-mon.\
+\f1\fs20 \cf0 Script used to relocate Super-mon to low mem ($4000.5FFF), so that one can work on the upper Super-mon:\
 \
 4000.5FFFP\
 4000<E000.FFFFS\
@@ -306,13 +242,10 @@ E000.F3FFP\
 (the reboot is to restore the symbol table for upper Super-mon)\
 \
 Files:\
-  DF01: Init; $1800 loads Super-mon and sym tbl; $1900 saves them.\
+  DF01: Init; $1800 loads Super-mon and sym tbl; \
+              $1940 regenerates the patch and saves saves them.\
   DF02: Super-mon [E000.F7FF]\
   DF03: Sym tbl 1 [D000.DFFF, C083]\
   DF04: Sym tbl 2 [D000.DFFF, C08B]\
 \
-TO DO:\
-D O)pen command is broken (just beeps)\
-D Test that A-reg set is working again\
-- Fix mon brk\
 }
