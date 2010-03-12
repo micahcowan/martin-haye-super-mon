@@ -69,8 +69,7 @@
 \f0 		Insert 5 program bytes at 800 (leaves PC=800)\
 	
 \f1 800O
-\f0 			Like Insert, but labs and targets to the very start of\
-				the range are not relocated, thus "opening" space.\
+\f0 			Like Insert, but \
 	
 \f1 800K
 \f0 			Klose (delete) set of zero-bytes starting at 800\
@@ -80,6 +79,20 @@
 	
 \f1 2000.207F
 \f0 		Dump memory range, with ASCII alongside.\
+	
+\f1 DF10<6000.67FFW	
+\f0 Write 8 pages, $6000.67FF, to disk file $10.\
+	
+\f1 DF10<0W		
+\f0 Delete disk file $10.\
+	
+\f1 6000<DF10R		
+\f0 Read disk file $10 to $6000 (the whole file)\
+	
+\f1 0R 
+\f0 or just  
+\f1 R		
+\f0 Print disk catalog\
 \
 Zero-page:\
 	50	PTMP\
@@ -247,5 +260,7 @@ Files:\
   DF02: Super-mon [E000.F7FF]\
   DF03: Sym tbl 1 [D000.DFFF, C083]\
   DF04: Sym tbl 2 [D000.DFFF, C08B]\
+\
+\
 \
 }
