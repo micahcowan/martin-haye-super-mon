@@ -64,15 +64,14 @@ Done with commands:\
 Done with commands, but leave spinning for more:\
   SED\
 \
-NakedOS string table:\
+NakedOS error codes:\
 =================\
 \
-17B5 -> 159D - 0D - "NOTFND"\
-17BF -> 15A4 - 14 - "FULL"\
-17EA -> 15A9 - 19 - "PARAM"\
-17EF -> 15AF - 1F - "CMD"\
-17F3 -> 15B3 - 23 - "I/O"\
-17F7 -> 15B7 - 27 - "NAKEDOS "\
+81 = Command error\
+82 = Parameter error\
+83 = I/O error\
+84 = File not found\
+85 = Disk full\
 \
 Memory layout decisions:\
 - I fixed the stub so it preserves $300.33F. That way NakedOS only uses a few zero page locations and its area from $800.17FF, allowing little user routines to live anywhere else.\
