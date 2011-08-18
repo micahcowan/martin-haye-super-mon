@@ -4,8 +4,8 @@
 07 CONST07
 
 08 ZPVAR
-09 MEMVAR
-0A MEMCALL
+09 MEMVAR      Note: Hi byte then lo byte
+0A MEMCALL     Note: Hi byte then lo byte
 0B CONSTSTR
 0C CONSTB
 0D CONSTW
