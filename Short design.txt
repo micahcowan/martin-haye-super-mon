@@ -1,0 +1,51 @@
+00 CONST00
+01 CONST01
+..
+07 CONST07
+
+08 ZPVAR
+09 MEMVAR
+0A MEMCALL
+0B CONSTSTR
+0C CONSTB
+0D CONSTW
+0E PEEKB
+
+0F INCW(p)
+10 DECW(p)
+11 LODB(p)
+12 LODW(p)
+13 NOT(v)
+14 PRSTR(v)
+15 PRSTRLN(v)
+
+16 SETB(p,v)
+17 SETW(p,v)
+18 STOB(p,v)
+19 STOW(p,v)
+1A ADDW(v,v)
+1B SUBW(v,v)
+1C ANDW(v,v)
+1D ORW(v,v)
+1E EORW(v,v)
+1F IFT(v,p)
+20 ISLT(v,v)
+21 ISLE(v,v)
+22 ISNE(v,v)
+23 ISGE(v,v)
+24 ISEQ(v,v)
+25 ISGT(v,v)
+26 SHIFTL(v,v)
+27 SHIFTR(v,v)
+
+MULW
+DIVW
+MODW
+
+
+Encoding:
+
+8 constants
+32 built-in ops
+88 even zero-page 30.DE
+128 call addrs 4000.BFFF
