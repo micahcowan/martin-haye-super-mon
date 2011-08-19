@@ -8,19 +8,19 @@
 0A MEMCALL     Note: Hi byte then lo byte
 0B CONSTSTR
 0C CONSTB
-0D CONSTW
-0E PEEKB
+0D CONSTW      Note: Hi byte then lo byte
+0E PEEKB       Questionable utility... LDA probably good enough
 
 0F INCW(p)
 10 DECW(p)
-11 LODB(p)
+11 LODB(p)      Load byte from ((p)), inc (p)
 12 LODW(p)
 13 NOT(v)
 14 PRSTR(v)
 15 PRSTRLN(v)
 
 16 SETB(p,v)
-17 SETW(p,v)
+17 SETW(p,v)    Sets variable to value. I think I need SETPW?
 18 STOB(p,v)
 19 STOW(p,v)
 1A ADDW(v,v)
