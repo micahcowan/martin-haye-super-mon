@@ -54,7 +54,7 @@ Built-in Ops
 22 CMPEQ(v,v)
 23 CMPNE(v,v)
 24 CMPGE(v,v)
-25 CMPGT(v,v)   
+25 CMPGT(v,v)
 26 ---
 27 ---
 
@@ -73,19 +73,18 @@ FF CALLBFXX
 Built-in functions
 ------------------
 
-* Not providing GETB or GETW, because (a) they're almost useless as the same can be done
-  efficiently in assembly, and (b) they would dereference the location as a pointer which
-  could be dangerous.
+* Not providing GETB, GETW, nor SETB because (a) they're almost useless as the same can be 
+  done efficiently in assembly, and (b) they would dereference the location as a pointer 
+  which could be dangerous.
 GETPB(v)     Get byte from indirect ptr
 GETPW(v)     Get word from indirect ptr
 READPB(p)    Get byte from indirect ptr, increment ptr
 READPW(p)    Get word from indirect ptr, increment ptr
-SETB(v)      Set byte at absolute address
-SETW(v)      Set word at absolute address
-SETPB(v)     Set byte at indirect ptr
-SETPW(v)     Set word at indirect ptr
-WRITEPB(p)   Set byte at indirect ptr, increment pointer
-WRITEPW(p)   Set word at indirect ptr, increment pointer
+SETW(v,v)    This is the "=" assignment operator
+SETPB(v,v)   Set byte at indirect ptr
+SETPW(v,v)   Set word at indirect ptr
+WRITEPB(p,v) Set byte at indirect ptr, increment pointer
+WRITEPW(p,v) Set word at indirect ptr, increment pointer
 NOT(v)       Logical invert
 INCW(p)      Increment variable, return its final value
 DECW(p)      Decrement variable, return its final value
