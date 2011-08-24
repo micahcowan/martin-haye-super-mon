@@ -73,8 +73,9 @@ FF CALLBFXX
 Built-in functions
 ------------------
 
-GETB(v)      Get byte from absolute address
-GETW(v)      Get word from absolute address. Basically same as MEMVAR, but as a func.
+* Not providing GETB or GETW, because (a) they're almost useless as the same can be done
+  efficiently in assembly, and (b) they would dereference the location as a pointer which
+  could be dangerous.
 GETPB(v)     Get byte from indirect ptr
 GETPW(v)     Get word from indirect ptr
 READPB(p)    Get byte from indirect ptr, increment ptr
