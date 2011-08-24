@@ -50,11 +50,11 @@ Built-in Ops
 1E DIVW(v,v)
 1F MODW(v,v)
 20 CMPLT(v,v)
-21 CMPLE(v,v)
+21 CMPLE(v,v)   
 22 CMPEQ(v,v)
 23 CMPNE(v,v)
 24 CMPGE(v,v)
-25 CMPGT(v,v)
+25 CMPGT(v,v)   
 26 ---
 27 ---
 
