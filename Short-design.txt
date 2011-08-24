@@ -1,51 +1,95 @@
-00 CONST00
-01 CONST01
-..
-07 CONST07
+08-23-2011
+==========
 
-08 ZPVAR
-09 MEMVAR      Note: Hi byte then lo byte
-0A MEMCALL     Note: Hi byte then lo byte
-0B CONSTSTR
-0C CONSTB
-0D CONSTW      Note: Hi byte then lo byte
-0E PEEKB       Questionable utility... LDA probably good enough
-
-0F INCW(p)
-10 DECW(p)
-11 LODB(p)      Load byte from ((p)), inc (p)
-12 LODW(p)
-13 NOT(v)
-14 PRSTR(v)
-15 PRSTRLN(v)
-
-16 SETB(p,v)
-17 SETW(p,v)    Sets variable to value. I think I need SETPW?
-18 STOB(p,v)
-19 STOW(p,v)
-1A ADDW(v,v)
-1B SUBW(v,v)
-1C ANDW(v,v)
-1D ORW(v,v)
-1E EORW(v,v)
-1F IFT(v,p)
-20 ISLT(v,v)
-21 ISLE(v,v)
-22 ISNE(v,v)
-23 ISGE(v,v)
-24 ISEQ(v,v)
-25 ISGT(v,v)
-26 SHIFTL(v,v)
-27 SHIFTR(v,v)
-
-MULW
-DIVW
-MODW
-
+I realized a few things, which have crystallized into decisions:
+- Short is mostly for me. Therefore, my priorities are the ones that matter.
+- It doesn't need to be relocatable.
+- It doesn't need to fit in 512 bytes.
+- I want multiply, divide, and mod.
+- I want printf with option for string, hex, and decimal format codes.
+- I don't want to rewrite Super-Mon; I'll add hooks that Short can use and that'll
+  be enough work right there. Short's assembly and disassembly code will live in low
+  RAM.
+- Routines that can logically form a statement (e.g. SET, INC) should be implemented
+  as Short functions rather than built-in ops. Conversely, routines that only make
+  sense in combination should only be ops.
+- I need some sort of notation to keep myself from getting mixed up whether the
+  code should use pointer val or val. Haven't figured this out yet.
+- Everything should be unsigned numbers, not signed.
 
 Encoding:
 
-8 constants
-32 built-in ops
-88 even zero-page 30.DE
+ 16 constants
+ 24 built-in ops
+ 88 even zero-page 50.FE
 128 call addrs 4000.BFFF
+
+Built-in Ops
+------------
+
+00 CONST00
+01 CONST01
+..
+0F CONST0F
+
+10 ZPVAR b
+11 MEMVAR hl    Note: Hi byte then lo byte of address
+12 CALL hl      Note: Hi byte then lo byte of address
+13 CONSTSTR s
+14 CONSTB b
+15 CONSTW hl    Note: Hi byte then lo byte of constant
+
+16 ADDW(v,v)
+17 SUBW(v,v)
+18 ANDW(v,v)
+19 ORW(v,v)
+1A EORW(v,v)
+1B SHIFTL(v,v)
+1C SHIFTR(v,v)
+1D MULW(v,v)
+1E DIVW(v,v)
+1F MODW(v,v)
+20 CMPLT(v,v)
+21 CMPLE(v,v)
+22 CMPEQ(v,v)
+23 CMPNE(v,v)
+24 CMPGE(v,v)
+25 CMPGT(v,v)
+26 ---
+27 ---
+
+28 ZPVAR50
+29 ZPVAR52
+..
+7E ZPVARFC
+7F ZPVARFE
+
+80 CALL40XX
+81 CALL41XX
+..
+FE CALLBEXX
+FF CALLBFXX
+
+Built-in functions
+------------------
+
+GETB(v)      Get byte from absolute address
+GETW(v)      Get word from absolute address. Basically same as MEMVAR, but as a func.
+GETPB(v)     Get byte from indirect ptr
+GETPW(v)     Get word from indirect ptr
+READPB(p)    Get byte from indirect ptr, increment ptr
+READPW(p)    Get word from indirect ptr, increment ptr
+SETB(v)      Set byte at absolute address
+SETW(v)      Set word at absolute address
+SETPB(v)     Set byte at indirect ptr
+SETPW(v)     Set word at indirect ptr
+WRITEPB(p)   Set byte at indirect ptr, increment pointer
+WRITEPW(p)   Set word at indirect ptr, increment pointer
+NOT(v)       Logical invert
+INCW(p)      Increment variable, return its final value
+DECW(p)      Decrement variable, return its final value
+IFT(v,p)     If true, jump to address
+IFNOT(v,p)   If false, jump to address
+PRSTR(v)     Print string. Can have embedded newline (displayed as "^M")
+PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
+
