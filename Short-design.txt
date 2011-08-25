@@ -91,5 +91,6 @@ DECW(p)      Decrement variable, return its final value
 IFT(v,p)     If true, jump to address
 IFNOT(v,p)   If false, jump to address
 PRSTR(v)     Print string. Can have embedded newline (displayed as "^M")
+PRDEC(v)     Print decimal number.
 PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
 
