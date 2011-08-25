@@ -75,7 +75,7 @@ Built-in functions
 
 * Not providing GETB, GETW, nor SETB because (a) they're almost useless as the same can be 
   done efficiently in assembly, and (b) they would dereference the location as a pointer 
-  which could be dangerous.
+  which could be dangerous (e.g. an I/O location)
 GETPB(v)     Get byte from indirect ptr
 GETPW(v)     Get word from indirect ptr
 READPB(p)    Get byte from indirect ptr, increment ptr
