@@ -33,11 +33,11 @@ Built-in Ops
 0F CONST0F
 
 10 ZPVAR b
-11 MEMVAR hl    Note: Hi byte then lo byte of address
-12 CALL hl      Note: Hi byte then lo byte of address
+11 MEMVAR h l   Note: Hi byte then lo byte of address
+12 CALL h l     Note: Hi byte then lo byte of address
 13 CONSTSTR s
 14 CONSTB b
-15 CONSTW hl    Note: Hi byte then lo byte of constant
+15 CONSTW h l   Note: Hi byte then lo byte of constant
 
 16 ADDW(v,v)
 17 SUBW(v,v)
