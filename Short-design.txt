@@ -76,13 +76,13 @@ Built-in functions
 * Not providing GETB, GETW, nor SETB because (a) they're almost useless as the same can be 
   done efficiently in assembly, and (b) they would dereference the location as a pointer 
   which could be dangerous (e.g. an I/O location)
-GETPB(v)     Get byte from indirect ptr
-GETPW(v)     Get word from indirect ptr
+GETPB(p)     Get byte from indirect ptr
+GETPW(p)     Get word from indirect ptr
 READPB(p)    Get byte from indirect ptr, increment ptr
 READPW(p)    Get word from indirect ptr, increment ptr
-SETW(v,v)    This is the "=" assignment operator
-SETPB(v,v)   Set byte at indirect ptr
-SETPW(v,v)   Set word at indirect ptr
+SETW(p,v)    This is the "=" assignment operator
+SETPB(p,v)   Set byte at indirect ptr
+SETPW(p,v)   Set word at indirect ptr
 WRITEPB(p,v) Set byte at indirect ptr, increment pointer
 WRITEPW(p,v) Set word at indirect ptr, increment pointer
 NOT(v)       Logical invert
