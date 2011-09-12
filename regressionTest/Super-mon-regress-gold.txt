@@ -475,4 +475,137 @@ SMARTMV 0001 SYMS, 0000 INSTRS
 2020-Y   C8          INY  
 2021-Z   20 0E F8    JSR  $F80E
 
+#207:8D *** LIST AND RUN ***
+
+#2000.2FFF!
+FOO!
+
+#2000.2FFFZ
+
+#2000.2FFFP
+
+#2000<F800.F8FFM
+
+#2000L
+
+2000-G   4A          LSR  
+2001-H   08          PHP  
+2002-I   20 47 F8    JSR  $F847
+2005-J   28          PLP  
+2006-K   A9 0F       LDA  #0F
+2008-L   90 02       BCC  $200C
+200A-M   69 E0       ADC  #E0
+200C-N   85 2E       STA  $2E
+200E-O   B1 26       LDA  (CURSV+1),Y
+2010-P   45 30       EOR  $30
+2012-Q   25 2E       AND  $2E
+2014-R   51 26       EOR  (CURSV+1),Y
+2016-S   91 26       STA  (CURSV+1),Y
+2018-T   60          RTS  
+2019-U   20 00 F8    JSR  PLOT
+201C-V   C4 2C       CPY  $2C
+201E-W   B0 11       BCS  $2031
+2020-X   C8          INY  
+2021-Y   20 0E F8    JSR  $F80E
+2024-Z   90 F6       BCC  $201C
+
+#-G
+  
+2000- 4A  .
+#-H
+  
+2001- 08  .
+#-I
+  
+2002- 20  .
+#-J
+  
+2005- 28  .
+#-K
+  
+2006- A9  )
+#-L
+  
+2008- 90  .
+#-M
+  
+200A- 69  .
+#-N
+  
+200C- 85  .
+#-O
+  
+200E- B1  1
+#-P
+  
+2010- 45  .
+#-Q
+  
+2012- 25  .
+#-R
+  
+2014- 51  .
+#-S
+  
+2016- 91  .
+#-T
+  
+2018- 60  .
+#-U
+  
+2019- 20  .
+#-V
+  
+201C- C4  D
+#-W
+  
+201E- B0  0
+#-X
+  
+2020- C8  H
+#-Y
+  
+2021- 20  .
+#-Z
+  
+2026- 69  .
+#2000.2FFFZ
+
+#2000: LDA #C1
+
+2000-G   A9 C1       LDA  #C1
+# JSR COUT
+
+2002-I   20 ED FD    JSR  COUT
+#2000G
+A
+2007-     A=C1 X=FF Y=FF P=F0 S=F5
+#2000L
+
+2000-G   A9 C1       LDA  #C1
+2002-H   20 ED FD    JSR  COUT
+2005-I   00          BRK  
+2006-J   00          BRK  
+2007-K   00          BRK  
+2008-L   00          BRK  
+2009-M   00          BRK  
+200A-N   00          BRK  
+200B-O   00          BRK  
+200C-P   00          BRK  
+200D-Q   00          BRK  
+200E-R   00          BRK  
+200F-S   00          BRK  
+2010-T   00          BRK  
+2011-U   00          BRK  
+2012-V   00          BRK  
+2013-W   00          BRK  
+2014-X   00          BRK  
+2015-Y   00          BRK  
+2016-Z   00          BRK  
+
+#-I: RTS
+
+2005-I   60          RTS  
+#2000G
+A
 #0
