@@ -94,3 +94,27 @@ PRSTR(v)     Print string. Can have embedded newline (displayed as "^M")
 PRDEC(v)     Print decimal number.
 PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
 
+Things that would probably be nice:
+- MAX
+- MIN
+- PUSHD
+- POPD
+
+09-05-2011: Strategy for integration into Super-Mon
+===================================================
+
+* Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
+  instead of CALL40xx, because I want the target of IFT to be shorter.
+
+- Change tests to account for MEMVAR40xx change
+- Make a routine that RELSCAN can call if the opcode is JSR. It would check (PTMP),Y to see
+  if it's a JSR to a short routine, and if so would perform any relocations inside the
+  short call, and advance PTMP,Y past the call. The convention is that Y is < #$80. OK to
+  use QTMP during this, and/or overwrite PTMP and recalculate it on exit.
+- Make a fancier version of INSDS2 (calculates instruction format and length) that 
+  accounts for Short calls, and replace uses of INSDS2 with calls to the new routine, 
+  except for the one in SCANOPS, which is used while *assembling* a line and should not be changed.
+- Make a fancier version of INSTDSP (disassembles an instruction) to detect and
+  disassemble Short calls. Replace calls to INSTDSP with calls to the new routine.
+- Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
+  Also make it able to search inside Short calls.
