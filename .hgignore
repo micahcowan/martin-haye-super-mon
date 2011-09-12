@@ -1,1 +1,2 @@
 \.orig$
+^regressionTest/Super-mon-regress-actual.txt$

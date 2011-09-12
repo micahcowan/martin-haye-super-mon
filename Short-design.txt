@@ -1,0 +1,120 @@
+08-23-2011
+==========
+
+I realized a few things, which have crystallized into decisions:
+- Short is mostly for me. Therefore, my priorities are the ones that matter.
+- It doesn't need to be relocatable.
+- It doesn't need to fit in 512 bytes.
+- I want multiply, divide, and mod.
+- I want printf with option for string, hex, and decimal format codes.
+- I don't want to rewrite Super-Mon; I'll add hooks that Short can use and that'll
+  be enough work right there. Short's assembly and disassembly code will live in low
+  RAM.
+- Routines that can logically form a statement (e.g. SET, INC) should be implemented
+  as Short functions rather than built-in ops. Conversely, routines that only make
+  sense in combination should only be ops.
+- I need some sort of notation to keep myself from getting mixed up whether the
+  code should use pointer val or val. Haven't figured this out yet.
+- Everything should be unsigned numbers, not signed.
+
+Encoding:
+
+ 16 constants
+ 24 built-in ops
+ 88 even zero-page 50.FE
+128 call addrs 4000.BFFF
+
+Built-in Ops
+------------
+
+00 CONST00
+01 CONST01
+..
+0F CONST0F
+
+10 ZPVAR b
+11 MEMVAR h l   Note: Hi byte then lo byte of address
+12 CALL h l     Note: Hi byte then lo byte of address
+13 CONSTSTR s
+14 CONSTB b
+15 CONSTW h     Note: Hi byte then lo byte of constant
+
+16 ADDW(v,v)
+17 SUBW(v,v)
+18 ANDW(v,v)
+19 ORW(v,v)
+1A EORW(v,v)
+1B SHIFTL(v,v)
+1C SHIFTR(v,v)
+1D MULW(v,v)
+1E DIVW(v,v)
+1F MODW(v,v)
+20 CMPLT(v,v)
+21 CMPLE(v,v)   
+22 CMPEQ(v,v)
+23 CMPNE(v,v)
+24 CMPGE(v,v)
+25 CMPGT(v,v)
+26 ---
+27 ---
+
+28 ZPVAR50
+29 ZPVAR52
+..
+7E ZPVARFC
+7F ZPVARFE
+
+80 CALL40XX
+81 CALL41XX
+..
+FE CALLBEXX
+FF CALLBFXX
+
+Built-in functions
+------------------
+
+* Not providing GETB, GETW, nor SETB because (a) they're almost useless as the same can be 
+  done efficiently in assembly, and (b) they would dereference the location as a pointer 
+  which could be dangerous (e.g. an I/O location)
+GETPB(p)     Get byte from indirect ptr
+GETPW(p)     Get word from indirect ptr
+READPB(p)    Get byte from indirect ptr, increment ptr
+READPW(p)    Get word from indirect ptr, increment ptr
+SETW(p,v)    This is the "=" assignment operator
+SETPB(p,v)   Set byte at indirect ptr
+SETPW(p,v)   Set word at indirect ptr
+WRITEPB(p,v) Set byte at indirect ptr, increment pointer
+WRITEPW(p,v) Set word at indirect ptr, increment pointer
+NOT(v)       Logical invert
+INCW(p)      Increment variable, return its final value
+DECW(p)      Decrement variable, return its final value
+IFT(v,p)     If true, jump to address
+IFNOT(v,p)   If false, jump to address
+PRSTR(v)     Print string. Can have embedded newline (displayed as "^M")
+PRDEC(v)     Print decimal number.
+PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
+
+Things that would probably be nice:
+- MAX
+- MIN
+- PUSHD
+- POPD
+
+09-05-2011: Strategy for integration into Super-Mon
+===================================================
+
+* Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
+  instead of CALL40xx, because I want the target of IFT to be shorter.
+
+- Change tests to account for MEMVAR40xx change
+- Make a routine that RELSCAN can call if the opcode is JSR. It would check (PTMP),Y to see
+  if it's a JSR to a short routine, and if so would perform any relocations inside the
+  short call, and advance PTMP,Y past the call. The convention is that Y is < #$80. OK to
+  use QTMP during this, and/or overwrite PTMP and recalculate it on exit.
+- Make a fancier version of INSDS2 (calculates instruction format and length) that 
+  accounts for Short calls, and replace uses of INSDS2 with calls to the new routine, 
+  except for the one in SCANOPS, which is used while *assembling* a line and should not be changed.
+- Make a fancier version of INSTDSP (disassembles an instruction) to detect and
+  disassemble Short calls. Replace calls to INSTDSP with calls to the new routine.
+- Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
+  Also make it able to search inside Short calls.
