@@ -244,7 +244,7 @@ FOO!
 2002-I   20 47 F8    JSR  $F847
 2005-J   28          PLP  
 2006-K   A9 0F       LDA  #0F
-2008-L   90 02       BCC  $200C
+2008-L   90 02       BCC  -N
 200A-M   69 E0       ADC  #E0
 200C-N   85 2E       STA  $2E
 200E-O   B1 26       LDA  (CURSV+1),Y
@@ -258,7 +258,7 @@ FOO!
 201E-W   B0 11       BCS  $2031
 2020-X   C8          INY  
 2021-Y   20 0E F8    JSR  $F80E
-2024-Z   90 F6       BCC  $201C
+2024-Z   90 F6       BCC  -V
 
 #FOO=-N
 
@@ -278,18 +278,18 @@ P-RANGE ERR
 2008-L   90 02       BCC  FOO
 200A-M   69 E0       ADC  #E0
                 FOO:
-200C-O * 85 2E       STA  $2E
-200E-P   B1 26       LDA  (CURSV+1),Y
-2010-Q   45 30       EOR  $30
-2012-R   25 2E       AND  $2E
-2014-S   51 26       EOR  (CURSV+1),Y
-2016-T   91 26       STA  (CURSV+1),Y
-2018-U   60          RTS  
-2019-V   20 00 F8    JSR  PLOT
-201C-W   C4 2C       CPY  $2C
-201E-X   B0 11       BCS  $2031
-2020-Y   C8          INY  
-2021-Z   20 0E F8    JSR  $F80E
+200C-N * 85 2E       STA  $2E
+200E-O   B1 26       LDA  (CURSV+1),Y
+2010-P   45 30       EOR  $30
+2012-Q   25 2E       AND  $2E
+2014-R   51 26       EOR  (CURSV+1),Y
+2016-S   91 26       STA  (CURSV+1),Y
+2018-T   60          RTS  
+2019-U   20 00 F8    JSR  PLOT
+201C-V   C4 2C       CPY  $2C
+201E-W   B0 11       BCS  $2031
+2020-X   C8          INY  
+2021-Y   20 0E F8    JSR  $F80E
 
 #FOOI
 
@@ -332,17 +332,17 @@ SMARTMV 0001 SYMS, 0001 INSTRS
 200A-M   69 E0       ADC  #E0
 200C-N   4A          LSR  
                 FOO:
-200D-P * 85 2E       STA  $2E
-200F-Q   B1 26       LDA  (CURSV+1),Y
-2011-R   45 30       EOR  $30
-2013-S   25 2E       AND  $2E
-2015-T   51 26       EOR  (CURSV+1),Y
-2017-U   91 26       STA  (CURSV+1),Y
-2019-V   60          RTS  
-201A-W   20 00 F8    JSR  PLOT
-201D-X   C4 2C       CPY  $2C
-201F-Y   B0 11       BCS  $2032
-2021-Z   C8          INY  
+200D-O * 85 2E       STA  $2E
+200F-P   B1 26       LDA  (CURSV+1),Y
+2011-Q   45 30       EOR  $30
+2013-R   25 2E       AND  $2E
+2015-S   51 26       EOR  (CURSV+1),Y
+2017-T   91 26       STA  (CURSV+1),Y
+2019-U   60          RTS  
+201A-V   20 00 F8    JSR  PLOT
+201D-W   C4 2C       CPY  $2C
+201F-X   B0 11       BCS  $2032
+2021-Y   C8          INY  
 
 #-NK
 
@@ -356,18 +356,18 @@ SMARTMV 0001 SYMS, 0001 INSTRS
 2008-L   90 02       BCC  FOO
 200A-M   69 E0       ADC  #E0
                 FOO:
-200C-O * 85 2E       STA  $2E
-200E-P   B1 26       LDA  (CURSV+1),Y
-2010-Q   45 30       EOR  $30
-2012-R   25 2E       AND  $2E
-2014-S   51 26       EOR  (CURSV+1),Y
-2016-T   91 26       STA  (CURSV+1),Y
-2018-U   60          RTS  
-2019-V   20 00 F8    JSR  PLOT
-201C-W   C4 2C       CPY  $2C
-201E-X   B0 11       BCS  $2031
-2020-Y   C8          INY  
-2021-Z   20 0E F8    JSR  $F80E
+200C-N * 85 2E       STA  $2E
+200E-O   B1 26       LDA  (CURSV+1),Y
+2010-P   45 30       EOR  $30
+2012-Q   25 2E       AND  $2E
+2014-R   51 26       EOR  (CURSV+1),Y
+2016-S   91 26       STA  (CURSV+1),Y
+2018-T   60          RTS  
+2019-U   20 00 F8    JSR  PLOT
+201C-V   C4 2C       CPY  $2C
+201E-W   B0 11       BCS  $2031
+2020-X   C8          INY  
+2021-Y   20 0E F8    JSR  $F80E
 
 #FOO.FOO+3I
 
@@ -384,15 +384,15 @@ SMARTMV 0001 SYMS, 0001 INSTRS
 200D-O   00          BRK  
 200E-P   00          BRK  
                 FOO:
-200F-R   85 2E       STA  $2E
-2011-S   B1 26       LDA  (CURSV+1),Y
-2013-T   45 30       EOR  $30
-2015-U   25 2E       AND  $2E
-2017-V   51 26       EOR  (CURSV+1),Y
-2019-W   91 26       STA  (CURSV+1),Y
-201B-X   60          RTS  
-201C-Y   20 00 F8    JSR  PLOT
-201F-Z   C4 2C       CPY  $2C
+200F-Q   85 2E       STA  $2E
+2011-R   B1 26       LDA  (CURSV+1),Y
+2013-S   45 30       EOR  $30
+2015-T   25 2E       AND  $2E
+2017-U   51 26       EOR  (CURSV+1),Y
+2019-V   91 26       STA  (CURSV+1),Y
+201B-W   60          RTS  
+201C-X   20 00 F8    JSR  PLOT
+201F-Y   C4 2C       CPY  $2C
 
 #-N.-OK
 
@@ -407,24 +407,24 @@ SMARTMV 0001 SYMS, 0001 INSTRS
 200A-M   69 E0       ADC  #E0
 200C-N * 00          BRK  
                 FOO:
-200D-P   85 2E       STA  $2E
-200F-Q   B1 26       LDA  (CURSV+1),Y
-2011-R   45 30       EOR  $30
-2013-S   25 2E       AND  $2E
-2015-T   51 26       EOR  (CURSV+1),Y
-2017-U   91 26       STA  (CURSV+1),Y
-2019-V   60          RTS  
-201A-W   20 00 F8    JSR  PLOT
-201D-X   C4 2C       CPY  $2C
-201F-Y   B0 11       BCS  $2032
-2021-Z   C8          INY  
+200D-O   85 2E       STA  $2E
+200F-P   B1 26       LDA  (CURSV+1),Y
+2011-Q   45 30       EOR  $30
+2013-R   25 2E       AND  $2E
+2015-S   51 26       EOR  (CURSV+1),Y
+2017-T   91 26       STA  (CURSV+1),Y
+2019-U   60          RTS  
+201A-V   20 00 F8    JSR  PLOT
+201D-W   C4 2C       CPY  $2C
+201F-X   B0 11       BCS  $2032
+2021-Y   C8          INY  
 
-#-P.-P+100I
+#FOO.FOO+100I
 ERR
-#-P.-P+80I
+#FOO.FOO+80I
 
 208D<200D.2102S
-2008-L   90 03       BCC  $200D ERR
+2008-L   90 03       BCC  -O ERR
 
 SMARTMV 0001 SYMS, 0000 INSTRS
 #-GL
@@ -434,7 +434,7 @@ SMARTMV 0001 SYMS, 0000 INSTRS
 2002-I   20 47 F8    JSR  $F847
 2005-J   28          PLP  
 2006-K   A9 0F       LDA  #0F
-2008-L   90 03       BCC  $200D
+2008-L   90 03       BCC  -O
 200A-M   69 E0       ADC  #E0
 200C-N   00          BRK  
 200D-O * 00          BRK  
@@ -462,18 +462,18 @@ SMARTMV 0001 SYMS, 0000 INSTRS
 2008-L   90 03       BCC  FOO+1
 200A-M   69 E0       ADC  #E0
                 FOO:
-200C-O * 85 2E       STA  $2E
-200E-P   B1 26       LDA  (CURSV+1),Y
-2010-Q   45 30       EOR  $30
-2012-R   25 2E       AND  $2E
-2014-S   51 26       EOR  (CURSV+1),Y
-2016-T   91 26       STA  (CURSV+1),Y
-2018-U   60          RTS  
-2019-V   20 00 F8    JSR  PLOT
-201C-W   C4 2C       CPY  $2C
-201E-X   B0 11       BCS  $2031
-2020-Y   C8          INY  
-2021-Z   20 0E F8    JSR  $F80E
+200C-N * 85 2E       STA  $2E
+200E-O   B1 26       LDA  (CURSV+1),Y
+2010-P   45 30       EOR  $30
+2012-Q   25 2E       AND  $2E
+2014-R   51 26       EOR  (CURSV+1),Y
+2016-S   91 26       STA  (CURSV+1),Y
+2018-T   60          RTS  
+2019-U   20 00 F8    JSR  PLOT
+201C-V   C4 2C       CPY  $2C
+201E-W   B0 11       BCS  $2031
+2020-X   C8          INY  
+2021-Y   20 0E F8    JSR  $F80E
 
 #207:8D *** LIST AND RUN ***
 
@@ -493,7 +493,7 @@ FOO!
 2002-I   20 47 F8    JSR  $F847
 2005-J   28          PLP  
 2006-K   A9 0F       LDA  #0F
-2008-L   90 02       BCC  $200C
+2008-L   90 02       BCC  -N
 200A-M   69 E0       ADC  #E0
 200C-N   85 2E       STA  $2E
 200E-O   B1 26       LDA  (CURSV+1),Y
@@ -507,7 +507,7 @@ FOO!
 201E-W   B0 11       BCS  $2031
 2020-X   C8          INY  
 2021-Y   20 0E F8    JSR  $F80E
-2024-Z   90 F6       BCC  $201C
+2024-Z   90 F6       BCC  -V
 
 #-G
   
@@ -568,7 +568,7 @@ FOO!
 2021- 20  .
 #-Z
   
-2026- 69  .
+2024- 90  .
 #207:8D *** ASSEMBLE AND RUN ***
 
 #2000.2FFFZ
@@ -602,9 +602,11 @@ FOO!
 # JSR COUT
 
 2002-I   20 ED FD    JSR  COUT
+#45:0 0 0 0
+
 #2000G
 A
-2007-N    A=C1 X=60 Y=01 P=70 S=F5
+2007-N    A=C1 X=00 Y=00 P=72 S=F5
 #2000L
 
 2000-G   A9 C1       LDA  #C1
@@ -655,7 +657,7 @@ A
 200A-N   69 01       ADC  #01
 # BCC -H
 
-200C-P   90 F4       BCC  $2002
+200C-P   90 F4       BCC  -H
 #X
 2005:08
 
@@ -666,11 +668,11 @@ A
 
 2000-G   A9 C1       LDA  #C1
 2002-H   C9 C9       CMP  #C9
-2004-I   F0 08       BEQ  $200E
+2004-I   F0 08       BEQ  -N
 2006-J   20 ED FD    JSR  COUT
 2009-K   18          CLC  
 200A-L   69 01       ADC  #01
-200C-M   90 F4       BCC  $2002
+200C-M   90 F4       BCC  -H
 200E-N   60          RTS  
 200F-O   00          BRK  
 2010-P   00          BRK  
