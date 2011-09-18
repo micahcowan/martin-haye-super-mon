@@ -1,2 +1,4 @@
 \.orig$
 ^regressionTest/Super-mon-regress-actual.txt$
+^regressionTest/[\w-]+-actual.txt$
+^Super-Mon-listing.txt$
