@@ -99,14 +99,17 @@ Things that would probably be nice:
 - MIN
 - PUSHD
 - POPD
+- Ensure that single-char string has the char in A, so it can be used as a char.
 
 09-05-2011: Strategy for integration into Super-Mon
 ===================================================
 
-* Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
-  instead of CALL40xx, because I want the target of IFT to be shorter.
+[done] Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
+       instead of CALL40xx, because I want the target of IFT to be shorter.
+[done] Change tests to account for MEMVAR40xx change
 
-- Change tests to account for MEMVAR40xx change
+- Priority should be to make Super-Mon relocate and list commands properly detect and skip
+  over short. Later I can work on real disassembly, and then assembly.
 - Make a routine that RELSCAN can call if the opcode is JSR. It would check (PTMP),Y to see
   if it's a JSR to a short routine, and if so would perform any relocations inside the
   short call, and advance PTMP,Y past the call. The convention is that Y is < #$80. OK to
