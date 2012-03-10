@@ -22,7 +22,7 @@ Encoding:
  16 constants
  24 built-in ops
  88 even zero-page 50.FE
-128 call addrs 4000.BFFF
+128 memory 4000.BFFF
 
 Built-in Ops
 ------------
@@ -64,11 +64,11 @@ Built-in Ops
 7E ZPVARFC
 7F ZPVARFE
 
-80 MEMVAR40XX
-81 MEMVAR41XX
+80 MEMVAR40XX l
+81 MEMVAR41XX l
 ..
-FE MEMVARBEXX
-FF MEMVARBFXX
+FE MEMVARBEXX l
+FF MEMVARBFXX l
 
 Built-in functions
 ------------------
@@ -101,23 +101,25 @@ Things that would probably be nice:
 - POPD
 - Ensure that single-char string has the char in A, so it can be used as a char.
 
-09-05-2011: Strategy for integration into Super-Mon
-===================================================
+Strategy for integration into Super-Mon
+=======================================
 
 [done] Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
        instead of CALL40xx, because I want the target of IFT to be shorter.
 [done] Change tests to account for MEMVAR40xx change
+[done] Make a fancier version of INSDS2 (calculates instruction format and length) that 
+       accounts for Short calls, and replace uses of INSDS2 with calls to the new routine, 
+       except for the one in SCANOPS, which is used while *assembling* a line and should not be changed.
+[done] Make a fancier version of INSTDSP (disassembles an instruction) to detect and
+       disassemble Short calls. Replace calls to INSTDSP with calls to the new routine.
 
-- Priority should be to make Super-Mon relocate and list commands properly detect and skip
-  over short. Later I can work on real disassembly, and then assembly.
+- Change mem dump in Super-Mon so that instead of defaulting to a single-byte dump, it
+  defaults to double-byte, and also prints the hex and decimal 16-bit number there. I have
+  already moved PRDEC back up into Super-Mon space so it can do that without the
+  Short support routines.
 - Make a routine that RELSCAN can call if the opcode is JSR. It would check (PTMP),Y to see
   if it's a JSR to a short routine, and if so would perform any relocations inside the
   short call, and advance PTMP,Y past the call. The convention is that Y is < #$80. OK to
   use QTMP during this, and/or overwrite PTMP and recalculate it on exit.
-- Make a fancier version of INSDS2 (calculates instruction format and length) that 
-  accounts for Short calls, and replace uses of INSDS2 with calls to the new routine, 
-  except for the one in SCANOPS, which is used while *assembling* a line and should not be changed.
-- Make a fancier version of INSTDSP (disassembles an instruction) to detect and
-  disassemble Short calls. Replace calls to INSTDSP with calls to the new routine.
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
