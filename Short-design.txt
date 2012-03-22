@@ -113,6 +113,10 @@ Strategy for integration into Super-Mon
 [done] Make a fancier version of INSTDSP (disassembles an instruction) to detect and
        disassemble Short calls. Replace calls to INSTDSP with calls to the new routine.
 
+- Make the Klose command detect and properly delete Short lines
+- Change Short mini-asm to assemble to temporary buf (the sym hash space?), and check
+  for room before writing to prog. If overwriting a statement in prog space, adjust
+  program to make exact room.
 - Change mem dump in Super-Mon so that instead of defaulting to a single-byte dump, it
   defaults to double-byte, and also prints the hex and decimal 16-bit number there. I have
   already moved PRDEC back up into Super-Mon space so it can do that without the
