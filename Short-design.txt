@@ -93,6 +93,7 @@ IFNOT(v,p)   If false, jump to address
 PRSTR(v)     Print string. Can have embedded newline (displayed as "^M")
 PRDEC(v)     Print decimal number.
 PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
+REM(v)       Do nothing (good for embedding comments)
 
 Things that would probably be nice:
 - MAX
@@ -100,6 +101,20 @@ Things that would probably be nice:
 - PUSHD
 - POPD
 - Ensure that single-char string has the char in A, so it can be used as a char.
+
+Programming notes
+=================
+
+- You can use REM just before a function to document how it works without slowing
+  anything down.
+  
+- A short function is recognized because it begins with JSR SHORT0, JSR SHORT1, or
+  JSR SHORT2 (denoting zero, one, or two arguments respectively).
+
+- On entry to a short function, A/X will contain the contents of ARG0 (A=hi, X=lo),
+  Y reg will be zero, and carry will be clear.
+  
+- On exit from a short function, A/X should contain the result.
 
 Strategy for integration into Super-Mon
 =======================================
