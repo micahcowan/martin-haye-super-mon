@@ -119,7 +119,6 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
-- Save/restore short support during disk ops
 - Make the Klose command detect and properly delete Short lines
 - Change Short mini-asm to assemble to temporary buf (the sym hash space?), and check
   for room before writing to prog. If overwriting a statement in prog space, adjust
@@ -131,6 +130,7 @@ Strategy for integration into Super-Mon
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
+[done] Save/restore short support during disk ops
 [done] Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
        instead of CALL40xx, because I want the target of IFT to be shorter.
 [done] Change tests to account for MEMVAR40xx change
