@@ -119,10 +119,6 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
-- Make the Klose command detect and properly delete Short lines
-- Change Short mini-asm to assemble to temporary buf (the sym hash space?), and check
-  for room before writing to prog. If overwriting a statement in prog space, adjust
-  program to make exact room.
 - Change mem dump in Super-Mon so that instead of defaulting to a single-byte dump, it
   defaults to double-byte, and also prints the hex and decimal 16-bit number there. I have
   already moved PRDEC back up into Super-Mon space so it can do that without the
@@ -130,7 +126,6 @@ Strategy for integration into Super-Mon
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
-[done] Save/restore short support during disk ops
 [done] Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
        instead of CALL40xx, because I want the target of IFT to be shorter.
 [done] Change tests to account for MEMVAR40xx change
@@ -143,4 +138,8 @@ Strategy for integration into Super-Mon
       if it's a JSR to a short routine, and if so would perform any relocations inside the
       short call, and advance PTMP,Y past the call. The convention is that Y is < #$80. OK to
       use QTMP during this, and/or overwrite PTMP and recalculate it on exit.
-
+[done] Make the Klose command detect and properly delete Short lines
+[done] Change Short mini-asm to assemble to temporary buf (the stack), and check
+       for room before writing to prog. If overwriting a statement in prog space, adjust
+       program to make exact room. Also made this work for regular 6502 asm lines.
+[done] Save/restore short support during disk ops
