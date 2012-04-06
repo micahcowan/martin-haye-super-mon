@@ -127,8 +127,6 @@ Strategy for integration into Super-Mon
   will help keep things from scrolling off the top.
 - It'll be hard, but I really need forward-loop fixing using the X command to work with
   Short code.
-- Seriously consider getting rid of the 3-byte dump for Short disassembly. It just gets
-  in the way when editing.
 - Change mem dump in Super-Mon so that instead of defaulting to a single-byte dump, it
   defaults to double-byte, and also prints the hex and decimal 16-bit number there. I have
   already moved PRDEC back up into Super-Mon space so it can do that without the
@@ -136,6 +134,7 @@ Strategy for integration into Super-Mon
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
+[done] Get rid of the 3-byte dump for Short disassembly. It just gets in the way when editing.
 [done] Clear to end-of-page after ASMLINE relist. Helps when editing complex lines.
 [done] Even before starting, I think I should change ops 80.FF to be MEMVAR40xx 
        instead of CALL40xx, because I want the target of IFT to be shorter.
