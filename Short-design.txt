@@ -119,6 +119,10 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
+- Only clear to end-of-page when assembly forces a relocation to change size.
+- Disable mon-style offsets from addresses. TRACKBUF+100 should use the "+" op, not be
+  an address interpreted directly by Super-Mon.
+- Implement translation of "SETW(VAR,3)" to "VAR=3"
 - Need a more descriptive error when you try to call a Short routine by incorrect label.
   Right now it just says "ERR", leaving no clue as to what kind of error it might be.
 - Need a more descriptive error when you try to call a label that isn't a Short function.
