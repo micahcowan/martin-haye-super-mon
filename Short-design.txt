@@ -119,8 +119,16 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
+- Asm resize needs to relocate refs within the line being assembled.
+- If relocation cannot fix a branch, it should print the target address it was trying
+  to install, to make it possible for the programmer to fix it.
+- Relocation should also operate on the listing marks -G..-Z
+- If asm replaces a BRK op, extend the size of the new stmt for purposes of resizing
+  by one byte. This way, there will always remain a BRK. Then change the default
+  Insert size to 1 byte instead of 32.
+- When disassembling Short, constants > 9 should also display with hex.
 - Only clear to end-of-page when assembly forces a relocation to change size.
-- Disable mon-style offsets from addresses. TRACKBUF+100 should use the "+" op, not be
+- Disable mon-style offsets from Short vars. TRACKBUF+100 should use the "+" op, not be
   an address interpreted directly by Super-Mon.
 - Implement translation of "SETW(VAR,3)" to "VAR=3"
 - Need a more descriptive error when you try to call a Short routine by incorrect label.
