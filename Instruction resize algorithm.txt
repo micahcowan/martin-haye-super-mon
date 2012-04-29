@@ -1,0 +1,177 @@
+Input:
+  PCL: Address of the instructions
+  LENGTH: length of the new instruction to be placed
+  
+Computation:
+  Push range
+  DSTEND: length of the old instruction being replaced
+  SRCBEG, SRCEND: Address of following instruction (SRCEND later advanced by FINDZEROS)
+  TARGET: Old length minus new length. Positive if shrinking, negative if growing.
+  [fiddle here]
+  DSTBEG: SRCBEG minus TARGET
+  Advance SRCEND using FINDZEROS
+  Do SMARTMV
+  Pop range
+
+Fiddle cases:
+
+Same size, not replacing BRK: 
+a1. Never adjust
+
+Same size, replacing BRK:
+b1. if next inst is BRK, stop (don't adjust)
+b2. push the next inst up one byte. (SMARTMV should clear the inserted byte)
+
+Shrinking:
+c1. (can't be replacing a BRK, because that wouldn't be a shrink)
+c2. if next inst is BRK, just clear old ins and return (don't adjust)
+c3. clear old ins
+c4. adjust by exact size
+
+Growing, not replacing BRK:
+d1. if next ins is not BRK, adjust by exact size and return.
+d2. find non-zero byte in range [oldlen+1..newlen+1]
+d3. if not found, stop (don't adjust, as there is enough BRK space to hold new ins)
+d4. adjust so that byte found will end up at newlen+1
+
+Growing, replacing BRK:
+e1. if next ins is not BRK, adj as if new ins is one larger (pushing up the BRK) and return
+e2. go to d2
+
+
+Test:
+
+207:8D Innocently overriding BRKs
+5000.50FFZ
+5000.50FFP
+5000: LDA #1
+ CLC
+ ADC #2
+ STA 4000
+ INC 6
+5000L
+207:8D Same size, not replacing BRK
+5000: LDA #11
+5002: SEC
+5005: STA 4321
+207:8D Same size, replacing BRK
+5002: BRK
+5002: CLC
+5000L
+207:8D Shrinking, next is BRK
+5000.50FFZ
+5000.50FFP
+5000: LDA #1
+ CLC
+ ADC #2
+ STA 4000
+ BRK
+ INC 6
+5000L
+5005: INX
+5000L
+5005:AD 0 40
+5005: INC 7
+5000L
+207:8D Shrinking, next is not BRK
+5000.50FFZ
+5000.50FFP
+5000: LDA #1
+ CLC
+ ADC #2
+ STA 4000
+ INC 6
+5000L
+5005: INX
+5000L
+5005:AD 0 40 E6 6
+5005: INC 7
+5000L
+207:8D Growing, not replacing BRK, next is not BRK
+5000.50FFZ
+5000.50FFP
+5000: LDA #1
+ CLC
+ ADC #2
+ STA 4000
+ INC 6
+5000L
+5002: INC 7
+5000L
+5002: INC 4321
+207:8D Growing, not replacing BRK, next is BRK
+5000.50FFZ
+5000.50FFP
+5000: LDA #1
+ CLC
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5002: INC 7
+5000L
+5000.50FFP
+5000.50FFZ
+5000: LDA #1
+ CLC
+ BRK
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5002: INC 7
+5000L
+5002:18 0
+5002: INC 1234
+5000L
+5000.50FFZ
+5000: LDA #1
+ CLC
+ BRK
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5002: PRDEC(3)
+5000L
+207:8D Growing, replacing BRK, next is not BRK
+5000.50FFZ
+5000.50FFP
+5000: LDA #1
+ CLC
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5003: INC 7
+5000L
+5000.50FFZ
+5000: LDA #1
+ CLC
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5003: INC 1234
+5000L
+207:8D Growing, replacing BRK, next is BRK
+5000.50FFP
+5000.50FFZ
+5000: LDA #1
+ CLC
+ BRK
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5003: INC 7
+5000.50FFZ
+5000: LDA #1
+ CLC
+ BRK
+ BRK
+ ADC #2
+ STA 4000
+5000L
+5003: PRDEC(3)
+5000L
