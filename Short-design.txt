@@ -119,7 +119,6 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
-- Only clear to end-of-page when assembly forces a relocation to change size.
 - If relocation cannot fix a branch, it should print the target address it was trying
   to install, to make it possible for the programmer to fix it.
 - When disassembling Short, constants > 9 should also display with hex.
@@ -139,6 +138,7 @@ Strategy for integration into Super-Mon
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
+[done] Don't clear to end-of-page after assembly
 [done] Relocation should also operate on the listing marks -G..-Z
 [done] Asm resize needs to relocate refs within the line being assembled.
 [done] Get rid of "Tight" check, now that asm resize is working.
