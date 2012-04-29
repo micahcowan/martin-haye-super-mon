@@ -119,15 +119,11 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
-- Asm resize needs to relocate refs within the line being assembled.
+- Relocation should also operate on the listing marks -G..-Z
+- Only clear to end-of-page when assembly forces a relocation to change size.
 - If relocation cannot fix a branch, it should print the target address it was trying
   to install, to make it possible for the programmer to fix it.
-- Relocation should also operate on the listing marks -G..-Z
-- If asm replaces a BRK op, extend the size of the new stmt for purposes of resizing
-  by one byte. This way, there will always remain a BRK. Then change the default
-  Insert size to 1 byte instead of 32.
 - When disassembling Short, constants > 9 should also display with hex.
-- Only clear to end-of-page when assembly forces a relocation to change size.
 - Disable mon-style offsets from Short vars. TRACKBUF+100 should use the "+" op, not be
   an address interpreted directly by Super-Mon.
 - Implement translation of "SETW(VAR,3)" to "VAR=3"
@@ -144,6 +140,11 @@ Strategy for integration into Super-Mon
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
+[done] Asm resize needs to relocate refs within the line being assembled.
+[done] Get rid of "Tight" check, now that asm resize is working.
+[done] If asm replaces a BRK op, extend the size of the new stmt for purposes of resizing
+       by one byte. This way, there will always remain a BRK. Then change the default
+       Insert size to 1 byte instead of 32. NOTE: this was really hard.
 [done] If short disasm wraps to multiple lines, decrease number printed by List command. This
        will help keep things from scrolling off the top.
 [done] Get rid of the 3-byte dump for Short disassembly. It just gets in the way when editing.
