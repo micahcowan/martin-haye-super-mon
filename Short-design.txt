@@ -119,6 +119,8 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
+- It'll be hard, but I really need forward-loop fixing using the X command to work with
+  Short code.
 - If relocation cannot fix a branch, it should print the target address it was trying
   to install, to make it possible for the programmer to fix it.
 - When disassembling Short, constants > 9 should also display with hex.
@@ -129,12 +131,9 @@ Strategy for integration into Super-Mon
   Right now it just says "ERR", leaving no clue as to what kind of error it might be.
 - Need a more descriptive error when you try to call a label that isn't a Short function.
   "SYNTAX ERR" isn't cutting it.
-- It'll be hard, but I really need forward-loop fixing using the X command to work with
-  Short code.
-- Change mem dump in Super-Mon so that instead of defaulting to a single-byte dump, it
-  defaults to double-byte, and also prints the hex and decimal 16-bit number there. I have
-  already moved PRDEC back up into Super-Mon space so it can do that without the
-  Short support routines.
+- Implement mon command to convert Hex <-> Dec. "#123" would convert dec to hex,
+  "#$123" would convert hex to dec. I have already moved PRDEC back up into Super-Mon space 
+  so it can do that without the Short support routines.
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
@@ -166,3 +165,52 @@ Strategy for integration into Super-Mon
        for room before writing to prog. If overwriting a statement in prog space, adjust
        program to make exact room. Also made this work for regular 6502 asm lines.
 [done] Save/restore short support during disk ops
+
+
+Test script for new XBRFIX:
+
+5000.50FFP
+5000.50FFZ
+5000: LDA #C1
+ CMP #C9
+ BEQ *
+ JSR COUT
+ CLC
+ ADC #1
+ BNE 5002
+X
+ RTS
+5000L
+5000.50FFZ
+5000: LDA #C1
+ CMP #C9
+ BEQ *
+ BCC *
+ BVC *
+ JSR COUT
+ CLC
+ ADC #1
+ BNE 5002
+X
+X
+X
+ RTS
+5000L
+5000.50FFP
+5000.50FFZ
+5000: LDA #C1
+ CMP #C9
+ BEQ *
+ JSR COUT
+5082: CLC
+ ADC #1
+X
+5000.50FFP
+5000.50FFZ
+5000: LDA #C1
+ CMP #C9
+ BEQ *
+ JSR COUT
+5083: CLC
+ ADC #1
+X
