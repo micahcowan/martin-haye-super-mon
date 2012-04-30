@@ -121,19 +121,17 @@ Strategy for integration into Super-Mon
 
 - It'll be hard, but I really need forward-loop fixing using the X command to work with
   Short code.
+- Implement mon command to convert Hex <-> Dec. "123#" would convert dec to hex,
+  "123$" would convert hex to dec.
 - If relocation cannot fix a branch, it should print the target address it was trying
   to install, to make it possible for the programmer to fix it.
-- When disassembling Short, constants > 9 should also display with hex.
 - Disable mon-style offsets from Short vars. TRACKBUF+100 should use the "+" op, not be
   an address interpreted directly by Super-Mon.
-- Implement translation of "SETW(VAR,3)" to "VAR=3"
 - Need a more descriptive error when you try to call a Short routine by incorrect label.
   Right now it just says "ERR", leaving no clue as to what kind of error it might be.
 - Need a more descriptive error when you try to call a label that isn't a Short function.
   "SYNTAX ERR" isn't cutting it.
-- Implement mon command to convert Hex <-> Dec. "#123" would convert dec to hex,
-  "#$123" would convert hex to dec. I have already moved PRDEC back up into Super-Mon space 
-  so it can do that without the Short support routines.
+- Implement translation of "SETW(VAR,3)" to "VAR=3"
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
