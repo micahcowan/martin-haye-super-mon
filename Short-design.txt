@@ -119,10 +119,6 @@ Programming notes
 Strategy for integration into Super-Mon
 =======================================
 
-- It'll be hard, but I really need forward-loop fixing using the X command to work with
-  Short code.
-- Implement mon command to convert Hex <-> Dec. "123#" would convert dec to hex,
-  "123$" would convert hex to dec.
 - If relocation cannot fix a branch, it should print the target address it was trying
   to install, to make it possible for the programmer to fix it.
 - Disable mon-style offsets from Short vars. TRACKBUF+100 should use the "+" op, not be
@@ -135,6 +131,10 @@ Strategy for integration into Super-Mon
 - Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
   Also make it able to search inside Short calls.
 
+[done] Implement mon command to convert Hex <-> Dec. "123$" would convert dec to hex,
+       "$123" would convert hex to dec.
+[done] It'll be hard, but I really need forward-loop fixing using the X command to work with
+       Short code.
 [done] Don't clear to end-of-page after assembly
 [done] Relocation should also operate on the listing marks -G..-Z
 [done] Asm resize needs to relocate refs within the line being assembled.
