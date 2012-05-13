@@ -127,9 +127,8 @@ Strategy for integration into Super-Mon
   Right now it just says "ERR", leaving no clue as to what kind of error it might be.
 - Need a more descriptive error when you try to call a label that isn't a Short function.
   "SYNTAX ERR" isn't cutting it.
+- Make MONSRCH also search inside short calls.
 - Implement translation of "SETW(VAR,3)" to "VAR=3"
-- Rewrite MONSRCH to use a patchable scanning mechanism. Currently it uses INSLTBL directly.
-  Also make it able to search inside Short calls.
 
 [done] Implement mon command to convert Hex <-> Dec. "123$" would convert dec to hex,
        "$123" would convert hex to dec.
@@ -212,3 +211,11 @@ X
 5083: CLC
  ADC #1
 X
+
+
+Applesoft prime test: 31 sec, 119 bytes
+  - can shorten (remove END, NEXT <VAR>, get rid of array clear)
+Short prime test: 16 sec, 101 bytes
+  - can shorten by adding MEMSET, maybe BUMP or ARRAY to support routines,
+    combining bump and IFT into single lines.
+Assembly prime test: 1 sec, 98 bytes
