@@ -95,7 +95,11 @@ PRDEC(v)     Print decimal number.
 PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
 REM(v)       Do nothing (good for embedding comments)
 
-Things that would probably be nice:
+Things that would be nice:
+- "." operator for byte offsets into structs
+- "[]" operator for word offsets into arrays
+- SETPTR function
+- MEMCPY, MEMSET
 - MAX
 - MIN
 - PUSHD
