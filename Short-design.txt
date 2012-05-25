@@ -55,8 +55,8 @@ Built-in Ops
 23 CMPNE(v,v)
 24 CMPGE(v,v)
 25 CMPGT(v,v)
-26 ---
-27 ---
+26 STRUCTIDX
+27 ARRAYIDX
 
 28 ZPVAR50
 29 ZPVAR52
@@ -104,6 +104,7 @@ Things that would be nice:
 - MIN
 - PUSHD
 - POPD
+- Signed math
 - Ensure that single-char string has the char in A, so it can be used as a char.
 
 Programming notes
@@ -223,3 +224,7 @@ Short prime test: 16 sec, 101 bytes
   - can shorten by adding MEMSET, maybe BUMP or ARRAY to support routines,
     combining bump and IFT into single lines.
 Assembly prime test: 1 sec, 98 bytes
+
+GETPB: $21D5 -> $2210
+SIGNATURE: $F28B
+929c: LDX #40
