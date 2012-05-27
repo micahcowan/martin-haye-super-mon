@@ -35,7 +35,7 @@ Built-in Ops
 10 ZPVAR b
 11 MEMVAR h l   Note: Hi byte then lo byte of address
 12 CALL h l     Note: Hi byte then lo byte of address
-13 CONSTSTR s	Note: Stored in hi-ascii except last byte
+13 CONSTSTR s	  Note: Stored in hi-ascii except last byte
 14 CONSTB b
 15 CONSTW h     Note: Hi byte then lo byte of constant
 
@@ -76,24 +76,31 @@ Built-in functions
 * Not providing GETB, GETW, nor SETB because (a) they're almost useless as the same can be 
   done efficiently in assembly, and (b) they would dereference the location as a pointer 
   which could be dangerous (e.g. an I/O location)
-GETPB(p)     Get byte from indirect ptr
-GETPW(p)     Get word from indirect ptr
-READPB(p)    Get byte from indirect ptr, increment ptr
-READPW(p)    Get word from indirect ptr, increment ptr
-SETW(p,v)    This is the "=" assignment operator
-SETPB(p,v)   Set byte at indirect ptr
-SETPW(p,v)   Set word at indirect ptr
-WRITEPB(p,v) Set byte at indirect ptr, increment pointer
-WRITEPW(p,v) Set word at indirect ptr, increment pointer
-NOT(v)       Logical invert
-INCW(p)      Increment variable, return its final value
-DECW(p)      Decrement variable, return its final value
-IFT(v,p)     If true, jump to address
-IFNOT(v,p)   If false, jump to address
-PRSTR(v)     Print string. Can have embedded newline (displayed as "^M")
-PRDEC(v)     Print decimal number.
-PRINTF(v,v)  Print formatted string: expand a single %d, %s, or %x.
-REM(v)       Do nothing (good for embedding comments)
+GETPB(var)            Get byte from indirect ptr
+GETPW(var)            Get word from indirect ptr
+READPB(var)           Get byte from indirect ptr, increment ptr
+READPW(var)           Get word from indirect ptr, increment ptr
+SETW(var,val)         This is the "=" assignment operator
+SETPB(var,val)        Set byte at indirect ptr
+SETPW(var,val)        Set word at indirect ptr
+WRITEPB(var,val)      Set byte at indirect ptr, increment pointer
+WRITEPW(var,val)      Set word at indirect ptr, increment pointer
+NOT(val)              Logical invert
+INCW(var)             Increment variable, return its final value
+DECW(var)             Decrement variable, return its final value
+IFT(val,label)        If true, jump to address
+IFNOT(val,label)      If false, jump to address
+PRSTR(str)            Print string. Can have embedded newline (displayed as "^M")
+PRDEC(val)            Print decimal number.
+PRINTF(str,val)       Print formatted string: expand a single %d, %s, or %x.
+REM(str)              Do nothing (good for embedding comments)
+SETPTR(var,label)     Set variable to an address rather than a value
+MAX(val,val)          Return maximum (unsigned compare) of two values
+MIN(val,val)          Return minimum (unsigned compare) of two values
+PUSH(val)             Push value on the stack
+POP(var)              Pop value from stack and place into var
+MEMSET(var,len,val)   Set len bytes of memory starting at ptr var to value val
+MEMCPY(var1,len,var2) Copy len bytes from ptr var1 to ptr var2
 
 Things that would be nice:
 - "." operator for byte offsets into structs
@@ -104,7 +111,7 @@ Things that would be nice:
 - MIN
 - PUSHD
 - POPD
-- Signed math
+- Signed math (*, /, %, compare ops, PRDEC, MIN, MAX)
 - Ensure that single-char string has the char in A, so it can be used as a char.
 
 Programming notes
@@ -113,11 +120,11 @@ Programming notes
 - You can use REM just before a function to document how it works without slowing
   anything down.
   
-- A short function is recognized because it begins with JSR SHORT0, JSR SHORT1, or
-  JSR SHORT2 (denoting zero, one, or two arguments respectively).
+- A short function is recognized because it begins with JSR SHORT0, JSR SHORT1,
+  JSR SHORT2, or JSR SHORT3 (denoting 0, 1, 2 or 3 arguments respectively).
 
 - On entry to a short function, A/X will contain the contents of ARG0 (A=hi, X=lo),
-  Y reg will be zero, and carry will be clear.
+  Y reg will be zero, and carry will be clear. No guarantee of N, Z, V flags.
   
 - On exit from a short function, A/X should contain the result.
 
