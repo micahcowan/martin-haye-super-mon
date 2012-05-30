@@ -111,8 +111,6 @@ Things that would be nice:
 - MIN
 - PUSHD
 - POPD
-- Signed math (*, /, %, compare ops, PRDEC, MIN, MAX)
-- Ensure that single-char string has the char in A, so it can be used as a char.
 
 Programming notes
 =================
@@ -127,6 +125,11 @@ Programming notes
   Y reg will be zero, and carry will be clear. No guarantee of N, Z, V flags.
   
 - On exit from a short function, A/X should contain the result.
+
+- All numbers are treated as unsigned (for comparison, multiply/divide, print, etc).
+  One can use negative numbers for add and subtract (only); they can be created by
+  subtracting from zero, e.g. "0-5" will yield 65530 which is the 16-bit 2's complement
+  of 5.
 
 Strategy for integration into Super-Mon
 =======================================
@@ -230,6 +233,7 @@ Applesoft prime test: 31 sec, 119 bytes
 Short prime test: 16 sec, 101 bytes
   - can shorten by adding MEMSET, maybe BUMP or ARRAY to support routines,
     combining bump and IFT into single lines.
+  - Will be about 12 statements
 Assembly prime test: 1 sec, 98 bytes
 
 GETPB: $21D5 -> $2210
