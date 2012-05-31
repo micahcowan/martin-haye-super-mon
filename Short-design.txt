@@ -101,16 +101,8 @@ PUSH(val)             Push value on the stack
 POP(var)              Pop value from stack and place into var
 MEMSET(var,len,val)   Set len bytes of memory starting at ptr var to value val
 MEMCPY(var1,len,var2) Copy len bytes from ptr var1 to ptr var2
-
-Things that would be nice:
-- "." operator for byte offsets into structs
-- "[]" operator for word offsets into arrays
-- SETPTR function
-- MEMCPY, MEMSET
-- MAX
-- MIN
-- PUSHD
-- POPD
+LOOP()                Mark the start of a LOOP..WHILE
+WHILE(val)            End of a LOOP..WHILE: if val is 
 
 Programming notes
 =================
@@ -236,6 +228,49 @@ Short prime test: 16 sec, 101 bytes
   - Will be about 12 statements
 Assembly prime test: 1 sec, 98 bytes
 
-GETPB: $21D5 -> $2210
-SIGNATURE: $F28B
-929c: LDX #40
+---- Notes on XBRFIX ----
+
+XBRFIX Begin:
+PCL/16 -> DSTEND
+
+Normal XBRFIX processing:
+DSTBEG: Address to store into
+MOVELEN: Byte to store
+
+SHXBRFIX Begin:
+SHPCSTART: PCL at the beginning of SHXBRFIX
+TARGET: $80 (N flag set, V flag clear)
+
+SHBRFIX processing:
+SHPCSTART -> DSTBEG (so that XBRFIX can see the $20/JSR)
+New bytes -> SHBRTARG/16
+Addr to store to -> MOVELEN 
+
+SHBRXSTO End:
+SHBRTARG/16: New bytes to store
+MOVELEN/16: Address to store them 
+
+
+Test:
+
+5000.50FFP
+5000.50FFZ
+5000: IFT(1,*)
+ CLC
+ ADC #1
+X
+
+5000.50FFP
+5000.50FFZ
+5000: LDA #C1
+ CMP #C9
+ BCS *
+ CLC
+ IFT(1,*)
+ ADC #1
+ BEQ *
+ INY
+X
+X
+X
+
