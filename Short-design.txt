@@ -137,8 +137,8 @@ Strategy for integration into Super-Mon
 - Make MONSRCH also search inside short calls.
 - Implement translation of "SETW(VAR,3)" to "VAR=3"
 
-[done] Implement mon command to convert Hex <-> Dec. "123$" would convert dec to hex,
-       "$123" would convert hex to dec.
+[done] Implement mon command to convert Hex <-> Dec. "123$" converts dec to hex,
+       "$123" converts hex to dec.
 [done] It'll be hard, but I really need forward-loop fixing using the X command to work with
        Short code.
 [done] Don't clear to end-of-page after assembly
