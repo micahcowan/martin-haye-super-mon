@@ -94,15 +94,16 @@ PRSTR(str)            Print string. Can have embedded newline (displayed as "^M"
 PRDEC(val)            Print decimal number.
 PRINTF(str,val)       Print formatted string: expand a single %d, %s, or %x.
 REM(str)              Do nothing (good for embedding comments)
-SETPTR(var,label)     Set variable to an address rather than a value
-MAX(val,val)          Return maximum (unsigned compare) of two values
-MIN(val,val)          Return minimum (unsigned compare) of two values
-PUSH(val)             Push value on the stack
-POP(var)              Pop value from stack and place into var
-MEMSET(var,len,val)   Set len bytes of memory starting at ptr var to value val
-MEMCPY(var1,len,var2) Copy len bytes from ptr var1 to ptr var2
 LOOP()                Mark the start of a LOOP..WHILE
 WHILE(val)            End of a LOOP..WHILE: if val is 
+SETPTR(var,label)     Set variable to an address rather than a value
+PUSH(val)             Push value on the stack
+POP(var)              Pop value from stack and place into var
+MAX(val,val)          Return maximum (unsigned compare) of two values
+MIN(val,val)          Return minimum (unsigned compare) of two values
+MEMSET(dstvar,len,val)    Set len bytes of memory starting at ptr dstvar to value val
+MEMCPY(dstvar,len,srcvar) Copy len bytes from ptr srcvar to ptr dstvar (non-overlap
+                          or higher-to-lower only)
 
 Programming notes
 =================
