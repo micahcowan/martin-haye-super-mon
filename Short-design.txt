@@ -39,24 +39,24 @@ Built-in Ops
 14 CONSTB b
 15 CONSTW h     Note: Hi byte then lo byte of constant
 
-16 ADDW(v,v)
-17 SUBW(v,v)
-18 ANDW(v,v)
-19 ORW(v,v)
-1A EORW(v,v)
-1B SHIFTL(v,v)
-1C SHIFTR(v,v)
-1D MULW(v,v)
-1E DIVW(v,v)
-1F MODW(v,v)
-20 CMPLT(v,v)
-21 CMPLE(v,v)   
-22 CMPEQ(v,v)
-23 CMPNE(v,v)
-24 CMPGE(v,v)
-25 CMPGT(v,v)
-26 STRUCTIDX
-27 ARRAYIDX
+16 ADDW(v,v)    op +
+17 SUBW(v,v)    op -
+18 ANDW(v,v)    op &
+19 ORW(v,v)     op @
+1A EORW(v,v)    op ^
+1B SHIFTL(v,v)  op <<
+1C SHIFTR(v,v)  op >>
+1D MULW(v,v)    op *
+1E DIVW(v,v)    op /
+1F MODW(v,v)    op %
+20 CMPLT(v,v)   op <
+21 CMPLE(v,v)   op <=
+22 CMPEQ(v,v)   op ==
+23 CMPNE(v,v)   op !=
+24 CMPGE(v,v)   op >=
+25 CMPGT(v,v)   op >
+26 STRUCTIDX    op .
+27 ARRAYIDX     op ]
 
 28 ZPVAR50
 29 ZPVAR52
@@ -128,15 +128,16 @@ Strategy for integration into Super-Mon
 
 - If relocation cannot fix a branch, it should print the target address it was trying
   to install, to make it possible for the programmer to fix it.
-- Disable mon-style offsets from Short vars. TRACKBUF+100 should use the "+" op, not be
-  an address interpreted directly by Super-Mon.
 - Need a more descriptive error when you try to call a Short routine by incorrect label.
   Right now it just says "ERR", leaving no clue as to what kind of error it might be.
 - Need a more descriptive error when you try to call a label that isn't a Short function.
   "SYNTAX ERR" isn't cutting it.
 - Make MONSRCH also search inside short calls.
-- Implement translation of "SETW(VAR,3)" to "VAR=3"
 
+[done] Implement translation of 'REM("COMMENT")' to ";COMMENT"
+[done] Implement translation of "SETW(VAR,3)" to "VAR=3"
+[done] Disable mon-style offsets from Short vars. TRACKBUF+100 should use the "+" op, not be
+       an address interpreted directly by Super-Mon.
 [done] Implement mon command to convert Hex <-> Dec. "123$" converts dec to hex,
        "$123" converts hex to dec.
 [done] It'll be hard, but I really need forward-loop fixing using the X command to work with
@@ -274,3 +275,12 @@ X
 X
 X
 
+5000.50FFP
+5000.50FFZ
+5000: ARG1=0
+ IFT(ARG1==10,*)
+ PRINTF("%D ",ARG1)
+ INCW(ARG1)
+ JMP 5005
+X
+A00.11FFP
