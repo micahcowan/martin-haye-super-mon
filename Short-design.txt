@@ -224,10 +224,7 @@ X
 
 Applesoft prime test: 31 sec, 119 bytes
   - can shorten (remove END, NEXT <VAR>, get rid of array clear)
-Short prime test: 16 sec, 101 bytes
-  - can shorten by adding MEMSET, maybe BUMP or ARRAY to support routines,
-    combining bump and IFT into single lines.
-  - Will be about 12 statements
+Short prime test: 13 sec, 77 bytes, 12 statements
 Assembly prime test: 1 sec, 98 bytes
 
 ---- Notes on XBRFIX ----
@@ -284,4 +281,3 @@ X
  INCW(ARG1)
  JMP 5005
 X
-A00.11FFP
